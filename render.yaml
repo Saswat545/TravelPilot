@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: travelpilot
+    runtime: python
+    buildCommand: |
+      cd frontend && npm install && npm run build
+      cd ../backend && pip install -r requirements.txt
+    startCommand: cd backend && python -m uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_BASE_URL
+        value: https://generativelanguage.googleapis.com/v1beta/openai
+      - key: GEMINI_MODEL
+        value: gemini-3.6-flash
+    healthCheckPath: /health
