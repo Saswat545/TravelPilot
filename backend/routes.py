@@ -24,7 +24,6 @@ router = APIRouter()
 # In-memory state for demo (good enough for hackathon)
 _current_itinerary: SchedItinerary | None = None
 _current_candidates: list[SchedActivity] = []
-_current_resilience = None
 
 
 def _scheduled_to_api(sched_itin: SchedItinerary, resilience=None) -> dict:
@@ -93,7 +92,7 @@ class DisruptionRequest(BaseModel):
 @router.post("/api/plan")
 async def plan_trip(request: PlanRequest):
     """Generate a complete itinerary from user preferences."""
-    global _current_itinerary, _current_candidates, _current_resilience
+    global _current_itinerary, _current_candidates
 
     try:
         start_date = datetime.fromisoformat(request.start_date)
@@ -159,9 +158,9 @@ async def plan_trip(request: PlanRequest):
     _current_itinerary = itinerary
 
     # Step 3: Compute resilience score (proactive, BEFORE any disruption)
-    _current_resilience = compute_resilience(itinerary)
+    resilience = compute_resilience(itinerary)
 
-    return _scheduled_to_api(itinerary, _current_resilience)
+    return _scheduled_to_api(itinerary, resilience)
 
 
 @router.get("/api/score")

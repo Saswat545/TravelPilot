@@ -3,9 +3,20 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pathlib import Path
+import os
 from dotenv import load_dotenv
 
-load_dotenv()
+# Load .env from project root (where .git is), regardless of cwd
+_project_root = Path(__file__).parent.parent
+load_dotenv(_project_root / ".env")
+
+# Startup diagnostic: confirm API key is loaded
+_gemini_key = os.getenv("GEMINI_API_KEY", "")
+if _gemini_key:
+    masked = _gemini_key[:4] + "..." + _gemini_key[-4:] if len(_gemini_key) > 8 else "***"
+    print(f"GEMINI_API_KEY: {masked} (loaded)")
+else:
+    print("GEMINI_API_KEY: NOT SET — will use mock data fallback")
 
 app = FastAPI(title="TravelPilot", version="0.1.0")
 

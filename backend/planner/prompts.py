@@ -37,7 +37,7 @@ Budget: ${budget} total ({daily_budget:.0f}/day)
 Interests: {interests}
 Travelers: {num_travelers}
 
-Return a JSON object with activities for each day. Focus on real, well-known places in {destination} that match the stated interests."""
+IMPORTANT: Return exactly 6-10 total activities (NOT per day — total for the whole trip). The scheduler will distribute them across days automatically. Focus on the most important, well-known places in {destination}. Keep descriptions to one short phrase each."""
 
 REPAIR_SYSTEM_PROMPT = """You are a travel itinerary repair assistant. When a disruption occurs, explain what changed and why in plain English.
 

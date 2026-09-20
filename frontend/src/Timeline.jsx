@@ -9,7 +9,7 @@ export default function Timeline({ itinerary, chaosResult }) {
       <div className="timeline-header">
         <h2>{itinerary.destination}</h2>
         <span className="timeline-header-meta">
-          {itinerary.days.length} day{itinerary.days.length > 1 ? 's' : ''} / {itinerary.total_travel_minutes}min travel
+          {itinerary.days.length} day{itinerary.days.length > 1 ? 's' : ''} / {Math.round(itinerary.total_travel_minutes)}min travel
         </span>
       </div>
 

@@ -160,16 +160,10 @@ def schedule_itinerary(
 
     Distributes activities across days, then schedules each day.
     """
-    # Sort all activities by time window, then priority
-    sorted_acts = sorted(
-        activities,
-        key=lambda a: (
-            a.time_window.earliest.date() if a.time_window else start_date.date(),
-            -a.priority,
-        ),
-    )
+    # Sort all activities by priority (highest first)
+    sorted_acts = sorted(activities, key=lambda a: -a.priority)
 
-    # Group by day
+    # Group by day based on time window dates
     day_groups: dict[int, list[Activity]] = {}
     for act in sorted_acts:
         if act.time_window:
@@ -178,6 +172,26 @@ def schedule_itinerary(
             day_num = 0
         day_num = max(0, min(day_num, num_days - 1))
         day_groups.setdefault(day_num, []).append(act)
+
+    # If one day has too many activities and other days are empty,
+    # redistribute evenly and reassign time windows to target day
+    max_per_day = 5
+    if num_days > 1:
+        for day_idx in list(day_groups.keys()):
+            if len(day_groups[day_idx]) > max_per_day:
+                overflow = day_groups[day_idx][max_per_day:]
+                day_groups[day_idx] = day_groups[day_idx][:max_per_day]
+                for i, act in enumerate(overflow):
+                    target = (day_idx + 1 + i) % num_days
+                    # Reassign time window to target day so schedule_day can place it
+                    if act.time_window:
+                        target_date = start_date + timedelta(days=target)
+                        orig_time = act.time_window.earliest.time()
+                        act.time_window = TimeWindow(
+                            earliest=target_date.replace(hour=orig_time.hour, minute=orig_time.minute),
+                            latest=target_date.replace(hour=act.time_window.latest.hour, minute=act.time_window.latest.minute),
+                        )
+                    day_groups.setdefault(target, []).append(act)
 
     days = []
     total_travel = 0.0

@@ -1,0 +1,45 @@
+sequenceDiagram
+    participant U as User
+    participant F as Frontend
+    participant R as FastAPI Routes
+    participant P as Planner Agent
+    participant S as Scheduler Engine
+    participant RE as Resilience Scorer
+    participant CH as Chaos Engine
+    participant RP as Repair Agent
+
+    Note over U,RP: PLAN FLOW
+    U->>F: destination="India", dates, budget, interests
+    F->>R: POST /api/plan {PlanRequest}
+    R->>P: plan_activities(destination, dates, budget, interests)
+    P->>P: Gemini 3.6 Flash (retry-once, JSON repair)
+    P-->>R: {activities: [{id, name, location, time_window, cost, duration}]}
+    R->>R: Convert to SchedActivity models
+    R->>S: schedule_itinerary(activities, start_date, num_days)
+    S->>S: Greedy nearest-neighbor + time-window pruning
+    S->>S: Multi-day distribution with overflow
+    S-->>R: Itinerary {days: [ItineraryDay], total_cost, total_travel}
+    R->>RE: compute_resilience(itinerary)
+    RE-->>R: ResilienceScore {overall, rating, factors[]}
+    R-->>F: {destination, days[], resilience_score, total_cost}
+    F->>F: Render timeline, charts, resilience badge
+
+    Note over U,RP: CHAOS FLOW
+    U->>F: Click "CHAOS MODE"
+    F->>R: POST /api/chaos
+    R->>CH: trigger_chaos(itinerary, candidate_pool)
+    CH-->>R: Disruption {cancelled_activity_id, type}
+    R->>RP: repair_itinerary(itinerary, disruption, candidate_pool)
+    RP->>RP: find_alternative() in candidate pool
+    RP->>RP: Compute diff (removed/modified/shifted)
+    RP-->>R: RepairResult {success, diff_entries[], explanation}
+    R-->>F: {repair: {diff_entries[], explanation}}
+    F->>F: Render diff panel with change highlighting
+
+    Note over U,RP: CHAT FLOW
+    U->>F: "What should I do tomorrow?"
+    F->>R: POST /api/chat {message}
+    R->>R: Build itinerary context string
+    R->>R: Gemini 3.6 Flash (or keyword fallback)
+    R-->>F: {response: "On Day 2..."}
+    F->>F: Display in chat panel

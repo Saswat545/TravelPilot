@@ -1,0 +1,26 @@
+graph LR
+    User["User"] -->|"Destination, Dates, Budget, Interests"| Frontend["React/Vite Frontend"]
+    Frontend -->|"POST /api/plan"| API["FastAPI Routes"]
+    Frontend -->|"POST /api/chaos"| API
+    Frontend -->|"POST /api/chat"| API
+
+    API -->|"Structured candidates"| Planner["Planner Agent\n(Gemini 3.6 Flash)"]
+    API -->|"Activities + time windows"| Scheduler["Scheduler Engine\n(Greedy Nearest-Neighbor)"]
+    API -->|"Scheduled itinerary"| Resilience["Resilience Scorer\n(4-Factor Analysis)"]
+    API -->|"Disrupted itinerary"| Repair["Repair Agent\n(Minimal-Diff)"]
+    API -->|"Inject disruption"| Chaos["Chaos Engine\n(Deterministic)"]
+
+    Planner -->|"Activities JSON"| Scheduler
+    Scheduler -->|"Ordered itinerary"| Resilience
+    Resilience -->|"Score + Rating"| API
+    Chaos -->|"Disrupted activity"| Repair
+    Repair -->|"Patched itinerary + diff"| API
+
+    API -->|"JSON response"| Frontend
+    Frontend -->|"Timeline, Charts, Diff"| User
+
+    style Planner fill:#2563EB,color:#fff
+    style Scheduler fill:#171717,color:#fff
+    style Resilience fill:#A16207,color:#fff
+    style Repair fill:#DC2626,color:#fff
+    style Chaos fill:#DC2626,color:#fff

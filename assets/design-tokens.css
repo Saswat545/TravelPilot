@@ -1,0 +1,98 @@
+/* TravelPilot Design Tokens v1.0.0
+ * Source: docs/brand-guidelines.md
+ * Generated: 2026-09-19
+ */
+
+:root {
+  /* Primary */
+  --color-primary: #171717;
+  --color-primary-hover: #262626;
+  --color-primary-active: #141414;
+  --color-primary-foreground: #FFFFFF;
+
+  /* Secondary */
+  --color-secondary: #404040;
+  --color-secondary-hover: #525252;
+  --color-secondary-active: #333333;
+  --color-secondary-foreground: #FFFFFF;
+
+  /* Accent */
+  --color-accent-300: #D4A843;
+  --color-accent: #A16207;
+  --color-accent-700: #854D0E;
+  --color-accent-foreground: #FFFFFF;
+  --color-accent-background: #FDF8EE;
+  --color-accent-border: #E8D5A8;
+
+  /* Neutral */
+  --color-background: #FFFFFF;
+  --color-foreground: #171717;
+  --color-muted: #F3F4F6;
+  --color-muted-200: #E8ECF0;
+  --color-border: #E5E5E5;
+  --color-muted-foreground: #6B7280;
+  --color-muted-foreground-600: #4B5563;
+
+  /* Semantic */
+  --color-success: #16A34A;
+  --color-warning: #A16207;
+  --color-error: #DC2626;
+  --color-info: #404040;
+
+  /* Typography */
+  --font-sans: 'Fira Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Fira Code', 'SF Mono', Consolas, monospace;
+
+  --text-xs: 11px;
+  --text-sm: 12px;
+  --text-base: 14px;
+  --text-md: 16px;
+  --text-lg: 18px;
+  --text-xl: 24px;
+  --text-2xl: 40px;
+
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --line-height-tight: 1.1;
+  --line-height-snug: 1.3;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.6;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 100px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 2px 4px rgba(0,0,0,0.06);
+  --shadow-lg: 0 4px 8px rgba(0,0,0,0.08);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Chart Colors */
+  --chart-primary: #171717;
+  --chart-accent: #A16207;
+  --chart-neutral: #E8ECF0;
+  --chart-muted: #6B7280;
+}
