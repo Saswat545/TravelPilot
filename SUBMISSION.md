@@ -66,10 +66,12 @@ An AI agent that plans, scores resilience, stress-tests with chaos mode, and rep
 
 ### Documentation
 
+- **Additional Materials:** `ADDITIONAL_MATERIALS.md` — differentiation story, architecture deep-dive, algorithm explanation, test results, verification guide
 - Architecture diagrams: `docs/architecture-overview.mmd`, `docs/data-flow.mmd`
 - Video script: `VIDEO_SCRIPT.md`
 - Brand guidelines: `docs/brand-guidelines.md`
 - Stress test report: `docs/stress-test-results.md`
+- Evaluator self-assessment: `EVALUATOR_SCORE.md`
 
 ### GitHub
 
